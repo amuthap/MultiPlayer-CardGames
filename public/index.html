@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer Card Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <div id="login-screen" class="screen active">
+            <div class="container">
+                <h1>Multiplayer Card Game</h1>
+                <div class="auth-tabs">
+                    <button id="login-tab" class="tab-btn active">Login</button>
+                    <button id="signup-tab" class="tab-btn">Sign Up</button>
+                </div>
+
+                <div id="login-form" class="auth-form active">
+                    <h2>Login</h2>
+                    <div class="form-group">
+                        <input type="text" id="login-username" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <button id="login-btn" class="btn-primary">Login</button>
+                </div>
+
+                <div id="signup-form" class="auth-form">
+                    <h2>Sign Up</h2>
+                    <div class="form-group">
+                        <input type="text" id="signup-username" placeholder="Username" required minlength="3" maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="signup-displayname" placeholder="Display Name" required maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="signup-email" placeholder="Email (optional)">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="signup-password" placeholder="Password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required minlength="6">
+                    </div>
+                    <button id="signup-btn" class="btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="lobby-screen" class="screen">
+            <div class="container">
+                <div class="lobby-header">
+                    <h1>Lobby</h1>
+                    <div class="user-info">
+                        <span id="logged-in-user">Welcome, Player</span>
+                        <button id="logout-btn" class="btn-secondary">Logout</button>
+                    </div>
+                </div>
+                <div class="lobby-content">
+                    <div class="lobby-section">
+                        <h2>Available Rooms</h2>
+                        <button id="create-room-btn" class="btn-primary">Create Room</button>
+                        <div id="rooms-list" class="rooms-list"></div>
+                    </div>
+                    <div class="lobby-section">
+                        <h2>Players in Lobby (<span id="player-count">0</span>)</h2>
+                        <div id="players-list" class="players-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="create-room-modal" class="modal">
+            <div class="modal-content">
+                <h2>Create Room</h2>
+                <div class="form-group">
+                    <label for="room-name">Room Name:</label>
+                    <input type="text" id="room-name" placeholder="My Room" maxlength="30">
+                </div>
+                <div class="form-group">
+                    <label for="max-players">Max Players:</label>
+                    <select id="max-players">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4" selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="game-type">Game Type:</label>
+                    <select id="game-type">
+                        <option value="reduceCards">Reduce Cards (Minimize hand value)</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button id="confirm-create-room-btn" class="btn-primary">Create</button>
+                    <button id="cancel-create-room-btn" class="btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="room-screen" class="screen">
+            <div class="container">
+                <div class="room-header">
+                    <h1 id="room-title">Room</h1>
+                    <button id="leave-room-btn" class="btn-secondary">Leave Room</button>
+                </div>
+                <div class="room-content">
+                    <div class="room-info">
+                        <p>Host: <span id="room-host">-</span></p>
+                        <p>Players: <span id="room-player-count">0</span>/<span id="room-max-players">0</span></p>
+                        <p>Game Type: <span id="room-game-type">-</span></p>
+                    </div>
+                    <div id="room-players" class="room-players"></div>
+                    <button id="start-game-btn" class="btn-primary" style="display:none;">Start Game</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <div class="container game-container">
+                <div class="game-header">
+                    <h1 id="game-title">Reduce Cards Game</h1>
+                    <button id="exit-game-btn" class="btn-secondary">Exit Game</button>
+                </div>
+
+                <div id="game-area" class="game-area">
+                    <div class="game-info-bar">
+                        <div class="info-item">
+                            <strong>Current Turn:</strong> <span id="current-player-name">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Deck:</strong> <span id="deck-count">54</span> cards
+                        </div>
+                        <div class="info-item">
+                            <strong>Your Hand Value:</strong> <span id="hand-value">0</span>
+                        </div>
+                    </div>
+
+                    <div id="other-players" class="other-players"></div>
+
+                    <div id="game-board" class="game-board">
+                        <div class="deck-area">
+                            <div class="deck-card card-back" id="deck-pile">
+                                <span>DECK</span>
+                            </div>
+                            <div id="discard-pile-area" class="discard-pile-area"></div>
+                        </div>
+                    </div>
+
+                    <div id="player-hand-area" class="player-hand-area">
+                        <div class="hand-header">
+                            <h3>Your Hand</h3>
+                            <div class="hand-actions">
+                                <button id="take-from-deck-btn" class="btn-action" disabled>Drop & Take from Deck</button>
+                                <button id="take-from-discard-btn" class="btn-action" disabled>Drop & Take Discard</button>
+                                <button id="show-cards-btn" class="btn-show" disabled>Show Cards (End Game)</button>
+                            </div>
+                        </div>
+                        <div id="hand-cards" class="hand-cards"></div>
+                    </div>
+                </div>
+
+                <div id="confirm-show-modal" class="modal">
+                    <div class="modal-content confirm-modal">
+                        <h2>🎴 Show Your Cards?</h2>
+                        <p>Are you sure you want to reveal your hand and end the game?</p>
+                        <p class="warning-text">⚠️ If you don't have the lowest value, you will <strong>lose</strong>!</p>
+                        <div class="modal-actions">
+                            <button id="confirm-show-yes" class="btn-danger">Yes, Show Cards</button>
+                            <button id="confirm-show-no" class="btn-secondary">No, Keep Playing</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="confirm-exit-modal" class="modal">
+                    <div class="modal-content confirm-modal">
+                        <h2>🚪 Exit Game?</h2>
+                        <p>Are you sure you want to leave the game and return to the lobby?</p>
+                        <p class="warning-text">⚠️ Other players will continue without you!</p>
+                        <div class="modal-actions">
+                            <button id="confirm-exit-yes" class="btn-danger">Yes, Exit Game</button>
+                            <button id="confirm-exit-no" class="btn-secondary">No, Stay in Game</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="game-result-modal" class="modal">
+                    <div class="modal-content result-modal">
+                        <h2 id="result-title">Game Over</h2>
+                        <div id="scoreboard-container">
+                            <h3>📊 Scoreboard</h3>
+                            <div id="scoreboard"></div>
+                        </div>
+                        <div id="result-content"></div>
+                        <div class="modal-actions">
+                            <button id="play-again-btn" class="btn-primary">🔄 Play Again</button>
+                            <button id="close-result-btn" class="btn-secondary">Exit to Lobby</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="notification" class="notification"></div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
