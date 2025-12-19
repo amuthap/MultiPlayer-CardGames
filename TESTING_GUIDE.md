@@ -1,4 +1,4 @@
-# Testing Guide - Reduce Cards Game
+# Testing Guide - Show (Minimize Hand Value) Game
 
 ## How to Test the Game
 
@@ -42,7 +42,7 @@ node server/index.js
 2. Enter room details:
    - Room Name: `Test Game`
    - Max Players: `4`
-   - Game Type: `Reduce Cards`
+   - Game Type: `Show (Minimize hand value)`
 3. Click "Create"
 4. Wait in room for Player 2
 

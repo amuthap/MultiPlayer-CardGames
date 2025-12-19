@@ -1,4 +1,4 @@
-# Reduce Cards - Game Rules
+# Show (Minimize Hand Value) - Game Rules
 
 ## Objective
 Minimize the total value of cards in your hand. When you think you have the lowest value, you can show your cards to end the game.

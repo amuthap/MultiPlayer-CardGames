@@ -93,9 +93,9 @@ You can change it by setting the `PORT` environment variable:
 PORT=8080 npm start
 ```
 
-## Game Implemented: Reduce Cards ✅
+## Game Implemented: Show (Minimize Hand Value) ✅
 
-The first card game "Reduce Cards" has been fully implemented!
+The first card game "Show (Minimize Hand Value)" has been fully implemented!
 
 ### Game Features
 - 5 cards dealt to each player at game start

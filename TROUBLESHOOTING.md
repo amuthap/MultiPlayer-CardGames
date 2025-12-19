@@ -46,7 +46,7 @@
 2. Enter:
    - Room Name: `Test Game`
    - Max Players: `4`
-   - Game Type: `Reduce Cards`
+   - Game Type: `Show (Minimize hand value)`
 3. Click "Create"
 4. You should see the Room screen
 5. You should see yourself listed as HOST

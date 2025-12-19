@@ -1,10 +1,10 @@
-# Game Status - Reduce Cards
+# Game Status - Show (Minimize Hand Value)
 
 ## ✅ FULLY FUNCTIONAL AND READY TO PLAY
 
 **Server:** Running on http://localhost:3000
 **Database:** SQLite at `data/players.db`
-**Game:** Reduce Cards - Complete and Working
+**Game:** Show (Minimize Hand Value) - Complete and Working
 
 ---
 
